@@ -1,0 +1,121 @@
+﻿<Window x:Class="Lab20WpfApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Lab20WpfApp"
+        xmlns:vm ="clr-namespace:Lab20WpfApp1.ViewModels"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="700">
+    <Window.DataContext>
+        <vm:MainWindowViewModel/>
+    </Window.DataContext>
+    <Window.Resources>        
+        <Style TargetType="Border">
+            <Setter Property="BorderBrush" Value="Black"/>
+        </Style>
+        <Style x:Key="slider1" TargetType="Thumb">
+            <Setter Property="Width" Value="30"/>
+        </Style>
+        <Style x:Key="slider2" TargetType="Thumb">
+            <Setter Property="Width" Value="40"/>
+        </Style>
+    </Window.Resources>
+    <DockPanel>
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="Функция 1"/>
+            <MenuItem Header="Функция 2"/>
+        </Menu>
+        <Grid DockPanel.Dock="Left">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+            <Label Grid.Row="0"    Content="Высота панели"/>
+            <TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding Height}" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+            <Label Grid.Row="1"    Content="Параметр2"/>
+            <TextBlock Grid.Column="1" Grid.Row="1" Text="100" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+            <Label Grid.Row="2"    Content="Параметр3"/>
+            <TextBlock Grid.Column="1" Grid.Row="2" Text="100" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+            <Label Grid.Row="3"    Content="Параметр4"/>
+            <TextBlock Grid.Column="1" Grid.Row="3" Text="100" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+            <Label Grid.Row="4"    Content="Параметр5"/>
+            <TextBlock Grid.Column="1" Grid.Row="4" Text="100" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+            <Label Grid.Row="5"    Content="Параметр6"/>
+            <TextBlock Grid.Column="1" Grid.Row="5" Text="100" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+            <Label Grid.Row="6"    Content="Параметр7"/>
+            <TextBlock Grid.Column="1" Grid.Row="6" Text="100" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+            <Button Grid.Row="7" Grid.ColumnSpan="2" Content="Отзеркалить"/>
+        </Grid>
+        <Grid DockPanel.Dock="Right">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="20"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="20"/>
+            </Grid.RowDefinitions>
+            <Border Grid.Row="1" Grid.Column="1">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="50"/>
+                        <ColumnDefinition Width="100"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="100"/>
+                        <ColumnDefinition Width="50"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="0.3*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                    </Grid.RowDefinitions>
+                    <Rectangle Fill="AliceBlue" Grid.ColumnSpan="5" Grid.RowSpan="2"/>
+                    <Border Grid.Column="0"  Grid.Row="0"  BorderThickness="2,2,2,0" Grid.ColumnSpan="5"/>
+                    <Border Grid.Column="0"  Grid.Row="1"  BorderThickness="2,0,2,2" />
+                    <Border Grid.Column="1"  Grid.Row="1" BorderThickness="0,2,0,0" >
+                        <Rectangle Fill="White"/>
+                    </Border>
+                    <Border Grid.Column="2"  Grid.Row="1"  BorderThickness="2,0,2,2" />
+                    <Border Grid.Column="3"  Grid.Row="1"  BorderThickness="0,2,0,0" >
+                        <Rectangle Fill="White"/>
+                    </Border>
+                    <Border Grid.Column="4"  Grid.Row="1"  BorderThickness="2,0,2,2"/>
+                    <Slider Grid.Column="0" Grid.Row="2"  Grid.ColumnSpan="5"  Name="slider1" VerticalAlignment="Center">
+                        <Slider.Resources>
+                            <Style TargetType="Thumb" BasedOn="{StaticResource slider1}"/>
+                        </Slider.Resources>
+                    </Slider>
+
+
+                    <Slider Grid.Column="0" Grid.Row="3"  Grid.ColumnSpan="5"  Name="slider2" VerticalAlignment="Center">
+                        <Slider.Resources>
+                            <Style TargetType="Thumb" BasedOn="{StaticResource slider2}"/>
+                        </Slider.Resources>
+                    </Slider>
+                </Grid>
+            </Border>
+            <StackPanel  Grid.Column="0" Grid.Row="1" VerticalAlignment="Bottom">
+                <Label   Content="slider1" Height="25"/>
+                <Label   Content="slider2" Height="25"/>
+            </StackPanel>
+            <StackPanel  Grid.Column="2" Grid.Row="1" VerticalAlignment="Bottom">
+                <RepeatButton   Content="slider1" Height="20" Margin="2.5"/>
+                <RepeatButton   Content="slider2" Height="20" Margin="2.5"/>
+            </StackPanel>
+        </Grid>
+    </DockPanel>
+</Window>
