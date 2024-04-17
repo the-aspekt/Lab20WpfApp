@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Lab20WpfApp.Models;
+using Lab20WpfApp1.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -24,5 +26,7 @@ namespace Lab20WpfApp
         {
             InitializeComponent();
         }
+
+        
     }
 }

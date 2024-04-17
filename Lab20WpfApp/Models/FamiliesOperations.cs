@@ -8,25 +8,13 @@ namespace Lab20WpfApp1.Models
 {
     internal static class FamiliesOperations
     {
-        public static double GetCircumferenceFromRadius (double r)
+        public static double SetNonZeroValue(double value, double defaultValue = 1)
         {
-            return r*Math.PI*2;
-        }
-        public static double GetAreaFromRadius (double r)
-        {
-            return r * r * Math.PI;
-        }
-        public static double GetDiameterFromRadius(double r)
-        {
-            return 2 * r;
-        }
-        public static double GetRadiusFromArea(double A)
-        {
-            return Math.Sqrt(A/ Math.PI);
-        }
-        public static double GetRadiusFromCircumference(double c)
-        {
-            return c / Math.PI / 2;
+            if (value != 0)
+                return Math.Abs(value);
+            else
+                return defaultValue;
         }
     }
+
 }
