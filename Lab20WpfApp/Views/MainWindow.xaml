@@ -115,8 +115,8 @@
             </Border>
 
             <StackPanel  Grid.Column="2" Grid.Row="1" VerticalAlignment="Bottom" >
-                <Button Content="вкл/выкл" Height="20" Margin="2.5" Command="{Binding IsLeftAperture}"/>
-                <Button Content="вкл/выкл" Height="20" Margin="2.5" Command="{Binding IsRightAperture}"/>
+                <ToggleButton Content="вкл/выкл" Height="20" Margin="2.5" Command="{Binding IsLeftAperture}" IsChecked="True"/>
+                <ToggleButton Content="вкл/выкл" Height="20" Margin="2.5" Command="{Binding IsRightAperture}" IsChecked="True"/>
             </StackPanel>
         </Grid>
     </DockPanel>
