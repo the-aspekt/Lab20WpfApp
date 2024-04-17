@@ -186,6 +186,7 @@ namespace Lab20WpfApp1.ViewModels
                 Panel.SetApertureWidth(WallPanel.Appertures.leftApperture, x);
                 leftApertureWidth = Panel.GetApertureWidth(WallPanel.Appertures.leftApperture);
                 GridWidthRefresh();
+                //код меняющий ширину скрола прокрутки в соответствии с шириной проема
                 OnPropertyChanged();                
             }
         }
@@ -199,6 +200,7 @@ namespace Lab20WpfApp1.ViewModels
                 Panel.SetApertureWidth(WallPanel.Appertures.rightApperture, x);
                 rightApertureWidth = Panel.GetApertureWidth(WallPanel.Appertures.rightApperture);
                 GridWidthRefresh();
+                //код меняющий ширину скрола прокрутки в соответствии с шириной проема
                 OnPropertyChanged();
 
             }
