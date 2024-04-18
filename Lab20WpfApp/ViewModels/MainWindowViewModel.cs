@@ -1,4 +1,5 @@
-﻿using Lab20WpfApp.Models;
+﻿using Lab20WpfApp;
+using Lab20WpfApp.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -24,12 +25,12 @@ namespace Lab20WpfApp1.ViewModels
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-      
+        //округлить все размеры до 5
         double RoundDistance (double distance)
         {
             return Math.Round((double)distance / 5) * 5;
         }
-
+        //разметка панели
         public string upperLintelGridHeight = "0.3*";
         public string UpperLintelGridHeight
         {
@@ -59,6 +60,7 @@ namespace Lab20WpfApp1.ViewModels
             set
             {
                 leftAperturePositionGridWidth = value;
+                
                 OnPropertyChanged();
             }
         }
@@ -106,7 +108,7 @@ namespace Lab20WpfApp1.ViewModels
                 OnPropertyChanged();
             }
         }
-
+        //обновление разметки панели
         void GridHeightRefresh ()
         {
             UpperLintelGridHeight = ((Height - bothApertureHeight) / Height).ToString() + "*";
@@ -125,7 +127,7 @@ namespace Lab20WpfApp1.ViewModels
             RightApertureGridWidth = ((RightApertureWidth) / Width).ToString() + "*";
             RightAperturePositionGridWidth = ((RightAperturePosition) / Width).ToString() + "*";
         }
-        
+        //параметры активной панели
         public double height;
         public double Height
         {
@@ -168,14 +170,6 @@ namespace Lab20WpfApp1.ViewModels
             }
         }
 
-        bool isDistanceValid()
-        {
-            if (Panel.GetMiddleWidth() >= 0)
-                return true;
-            else
-                return false;
-        }
-
         private double leftApertureWidth;
         public double LeftApertureWidth
         {
@@ -212,14 +206,11 @@ namespace Lab20WpfApp1.ViewModels
             get { return leftAperturePosition; }
             set
             {
-                if (isDistanceValid())
-                {
                     double x = RoundDistance(value);
                     Panel.SetAperturePosition(WallPanel.Appertures.leftApperture, x);
                     leftAperturePosition = Panel.GetAperturePosition(WallPanel.Appertures.leftApperture);
                     GridWidthRefresh();
                     OnPropertyChanged();
-                }                
             }
         }
         private double rightAperturePosition;
@@ -236,7 +227,7 @@ namespace Lab20WpfApp1.ViewModels
                 OnPropertyChanged();
             }
         }
-
+        // команды по включению/выключению проемов
         public ICommand IsLeftAperture {  get; }
         private void OnIsLeftApertureExecute(object sender)
         {
@@ -292,10 +283,12 @@ namespace Lab20WpfApp1.ViewModels
                 return false;
             else return true;
         }
-
+        //отзеркаливание панели
         public ICommand MirrorPanel { get; }
         private void OnMirrorPanelExecute(object sender)
         {
+            //Slider leftApertureSlider = slider1.Value;
+            //SliderWidthChange();
             double rw = RightApertureWidth;
             double rp = RightAperturePosition;
 

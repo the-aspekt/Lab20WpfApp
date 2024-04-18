@@ -157,18 +157,6 @@ namespace Lab20WpfApp.Models
                         }
                     }
                 }
-            public double GetApertureReversedPosition(Appertures apperture)
-                {
-                    if (apperture == Appertures.leftApperture && this.leftApperture != null)
-                    {
-                        return Width - this.leftApperture.Position;
-                    }
-                    else if (apperture == Appertures.rightApperture && this.rightApperture != null)
-                    {
-                        return Width - this.rightApperture.Position;
-                    }
-                    return 0;
-                }
             public void CreateAperture(Appertures apperture, double width, double height, double position = 0)
                 {
                     if (GetMiddleWidth() - (Math.Abs(width) + Math.Abs(position)) > 0 && (Height - Math.Abs(height)) > 0)
