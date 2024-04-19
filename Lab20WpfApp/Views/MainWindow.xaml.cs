@@ -2,6 +2,7 @@
 using Lab20WpfApp1.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,12 +24,37 @@ namespace Lab20WpfApp
     /// </summary>
     public partial class MainWindow : Window
     {
+        public ObservableCollection<Family> families;
+
         public MainWindow()
         {
             InitializeComponent();
+
+            families = new ObservableCollection<Family>();
+
+        // families.Add(WallPanel Panel);
+
+        Family family1 = new WallPanel()
+        {            
+            AmountOfSamples = 5
+        };
+
+        Family family2 = new WallPanel()
+        {            
+            AmountOfSamples = 3,
+        };
+            MainWindowViewModel viewModel = new MainWindowViewModel();
+            Family currentFamily = viewModel.Panel;
+
+            families.Add(family1);
+            families.Add(family2);
+            families.Add(currentFamily);
+
+            //теперь нужно всё это поместить во всплывающий список сверху и добавить опцию сохранения
+            listBox.ItemsSource = families;
         }
-        //пытаюсь настроить ширину thumb соответствующую ширине проема
-        private void Button_Click(object sender, RoutedEventArgs e)
+    //пытаюсь настроить ширину thumb соответствующую ширине проема
+    private void Button_Click(object sender, RoutedEventArgs e)
         {
             ////slider1.;
             //ControlTemplate sliderTemplate = (ControlTemplate)this.FindResource("SliderThumbHorizontalDefault");

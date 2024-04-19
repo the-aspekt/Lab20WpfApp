@@ -9,8 +9,11 @@ using static Lab20WpfApp.Models.WallPanel;
 
 namespace Lab20WpfApp.Models
 {
-    internal class WallPanel
+    internal class WallPanel : Family
     {
+            private string grade;
+            public string Grade { get; set; }
+
             private double width = 6000;
             public double Width 
         {
@@ -41,7 +44,21 @@ namespace Lab20WpfApp.Models
                     height = x;
             }
         }
-            private Apperture leftApperture = null;
+        private double thickness = 200;
+        public double Thickness
+        {
+            get
+            {
+                return thickness;
+            }
+            set
+            {
+                double x = Math.Abs(value);
+                if (x > 0)
+                    height = x;
+            }
+        }
+        private Apperture leftApperture = null;
             private Apperture rightApperture = null;
             public enum Appertures
             {
@@ -49,24 +66,36 @@ namespace Lab20WpfApp.Models
                 rightApperture
             }
 
-            public WallPanel()  { }
-            public WallPanel(double width, double height) 
+            public WallPanel() 
+            {
+                this.FamilyType = FamilyTypes.WallPanel;
+                this.Description = "Стеновая панель";
+                this.Grade = "НСН";
+                RefreshName();
+            }
+            public WallPanel(double width, double height) : base()
             {
                 this.Width = width;
                 this.Height = height;
+                RefreshName();
             }
-            public WallPanel(double width, double height, double widthApp, double heightApp, double positioningApp)
+            public WallPanel(double width, double height, double widthApp, double heightApp, double positioningApp) : base()
             {
                 this.Width = width;
                 this.Height = height;
-                this.leftApperture = new Apperture(widthApp, heightApp, positioningApp);
+                if (positioningApp > width/2)
+                    this.rightApperture = new Apperture(widthApp, heightApp, width - positioningApp);
+                else
+                    this.leftApperture = new Apperture(widthApp, heightApp, positioningApp);
+                RefreshName();
             }
-            public WallPanel(double width, double height, double widthApp, double heightApp, double positioningApp, double widthApp2, double heightApp2, double positioningApp2)
+            public WallPanel(double width, double height, double widthApp, double heightApp, double positioningApp, double widthApp2, double heightApp2, double positioningApp2) : base()
             {
                 this.Width = width;
                 this.Height = height;
                 this.leftApperture = new Apperture(widthApp, heightApp, positioningApp);
                 this.rightApperture = new Apperture(widthApp2, heightApp2, positioningApp2);
+                RefreshName();
             }
 
             public double GetMiddleWidth()
@@ -184,6 +213,11 @@ namespace Lab20WpfApp.Models
                     {
                         this.rightApperture = null;
                     }
-                }        
+                }       
+
+            public override void RefreshName()
+            {
+                this.Name = this.Grade + " " + Convert.ToString(Width/100) + "." + Convert.ToString(Height / 100) + "." + Convert.ToString(Thickness / 100) + this.Label;
+            }
     }
 }

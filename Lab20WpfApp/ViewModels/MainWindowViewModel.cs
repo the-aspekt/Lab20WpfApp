@@ -2,6 +2,7 @@
 using Lab20WpfApp.Models;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -12,11 +13,14 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Xml.Linq;
 
 namespace Lab20WpfApp1.ViewModels
 {
     class MainWindowViewModel : INotifyPropertyChanged
     {
+        
+
         public WallPanel Panel = new WallPanel(6000, 3000, 1200, 2000, 600, 1200, 2000, 600);
         
         public event PropertyChangedEventHandler PropertyChanged;
