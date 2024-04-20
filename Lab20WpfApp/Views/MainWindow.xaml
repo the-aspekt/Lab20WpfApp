@@ -14,8 +14,25 @@
     
     <Window.Resources>
         <DataTemplate x:Key="familyTemplate">
-            <Border x:Name="border" BorderBrush="Gray" BorderThickness="2" Background="LightGray" Margin="5" Padding="5">
+            <Border BorderBrush="Gray" BorderThickness="2" Background="LightGray" Margin="5" Padding="5">
                 <StackPanel Orientation="Horizontal" >                    
+                    <StackPanel Orientation="Vertical" HorizontalAlignment="Right" Width="100" Margin="5">
+                        <TextBlock Text="Тип:"/>
+                        <TextBlock Text="Описание:"/>
+                        <TextBlock Text="Количество &#xA;элементов:"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Vertical" Margin="5">
+                        <TextBlock Text="{Binding Path=Name}"/>
+                        <TextBlock Text="{Binding Path=Description}"/>
+                        <TextBlock Text=""/>
+                        <TextBlock Text="{Binding Path=AmountOfSamples}"/>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+        </DataTemplate>
+        <DataTemplate x:Key="familyComboBoxTemplate">
+            <Border BorderBrush="Gray" BorderThickness="2" Background="LightGray" Margin="5" Padding="5">
+                <StackPanel Orientation="Horizontal" >
                     <StackPanel Orientation="Vertical" HorizontalAlignment="Right" Width="100" Margin="5">
                         <TextBlock Text="Тип:"/>
                         <TextBlock Text="Описание:"/>
@@ -297,6 +314,22 @@
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="Функция 1"/>
             <MenuItem Header="Функция 2"/>
+            <ComboBox x:Name="FamilySelector"
+                      Width="300"
+                      HorizontalContentAlignment="Stretch"
+                      ScrollViewer.VerticalScrollBarVisibility="Auto"
+                      MaxHeight="100"
+                      IsSynchronizedWithCurrentItem="False"
+                      >
+                
+                <ListBox x:Name="listBox" 
+                     MaxHeight="600"
+                     ItemTemplate="{StaticResource familyTemplate}" 
+                     HorizontalContentAlignment="Stretch"
+                     ScrollViewer.VerticalScrollBarVisibility="Auto" 
+                     SelectionChanged="listBox_Selected" />
+
+            </ComboBox>
         </Menu>
         <Grid DockPanel.Dock="Left">
             <Grid.ColumnDefinitions>
@@ -332,17 +365,9 @@
             <TextBox Grid.Column="1" Grid.Row="6" Text="{Binding RightAperturePosition}" HorizontalAlignment="Stretch" TextAlignment="Right" VerticalAlignment="Center"/>
             <Button Grid.Row="7" Grid.ColumnSpan="2" Content="Отзеркалить" Command="{Binding MirrorPanel}"/>
 
-            <StackPanel Grid.Row="8" Grid.ColumnSpan="2" ScrollViewer.CanContentScroll="True" >
-                <TextBlock x:Name="title" Text="Список семейств:" HorizontalAlignment="Center"/>
-                <ListBox x:Name="listBox" 
-                 MaxHeight="600"
-                 ItemTemplate="{StaticResource familyTemplate}" 
-                 HorizontalContentAlignment="Stretch"
-                 ScrollViewer.VerticalScrollBarVisibility="Auto"/>
-
-            </StackPanel>
+    
             <StackPanel  Grid.Column="0" Grid.Row="9" Grid.ColumnSpan="2" VerticalAlignment="Bottom" HorizontalAlignment="Right">
-                <Button Grid.Row="7" Grid.ColumnSpan="2" Content="изменить ширину" Click="Button_Click" IsEnabled="True"/>
+                <Button Grid.Row="7" Grid.ColumnSpan="2" Content="изменить ширину" Click="Button_Click" IsEnabled="False"/>
                 <Label   Content="Привязка левого проема" Height="25" HorizontalAlignment="Right"/>
                 <Label   Content="Привязка правого проема" Height="25" HorizontalAlignment="Right"/>
             </StackPanel>

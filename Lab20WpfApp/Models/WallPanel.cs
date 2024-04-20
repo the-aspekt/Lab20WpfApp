@@ -73,27 +73,36 @@ namespace Lab20WpfApp.Models
                 this.Grade = "НСН";
                 RefreshName();
             }
-            public WallPanel(double width, double height) : base()
+            public WallPanel(double width, double height)
             {
                 this.Width = width;
                 this.Height = height;
-                RefreshName();
+            this.FamilyType = FamilyTypes.WallPanel;
+            this.Description = "Стеновая панель";
+            this.Grade = "НСН";
+            RefreshName();
             }
-            public WallPanel(double width, double height, double widthApp, double heightApp, double positioningApp) : base()
+            public WallPanel(double width, double height, double widthApp, double heightApp, double positioningApp)
             {
                 this.Width = width;
                 this.Height = height;
-                if (positioningApp > width/2)
+            this.FamilyType = FamilyTypes.WallPanel;
+            this.Description = "Стеновая панель";
+            this.Grade = "НСН";
+            if (positioningApp > width/2)
                     this.rightApperture = new Apperture(widthApp, heightApp, width - positioningApp);
                 else
                     this.leftApperture = new Apperture(widthApp, heightApp, positioningApp);
                 RefreshName();
             }
-            public WallPanel(double width, double height, double widthApp, double heightApp, double positioningApp, double widthApp2, double heightApp2, double positioningApp2) : base()
+            public WallPanel(double width, double height, double widthApp, double heightApp, double positioningApp, double widthApp2, double heightApp2, double positioningApp2)
             {
                 this.Width = width;
                 this.Height = height;
-                this.leftApperture = new Apperture(widthApp, heightApp, positioningApp);
+            this.FamilyType = FamilyTypes.WallPanel;
+            this.Description = "Стеновая панель";
+            this.Grade = "НСН";
+            this.leftApperture = new Apperture(widthApp, heightApp, positioningApp);
                 this.rightApperture = new Apperture(widthApp2, heightApp2, positioningApp2);
                 RefreshName();
             }

@@ -17,11 +17,26 @@ using System.Xml.Linq;
 
 namespace Lab20WpfApp1.ViewModels
 {
+
+
     class MainWindowViewModel : INotifyPropertyChanged
     {
-        
+        public ObservableCollection<Family> familiesSelector = new ObservableCollection<Family>();
 
-        public WallPanel Panel = new WallPanel(6000, 3000, 1200, 2000, 600, 1200, 2000, 600);
+        // families.Add(WallPanel Panel);
+
+        Family defaultFamily1 = new WallPanel()
+        {
+            AmountOfSamples = 5
+        };
+
+        Family defaultFamily2 = new WallPanel()
+        {
+            AmountOfSamples = 3,
+        };
+             
+
+        public WallPanel wallPanel = new WallPanel(5000, 3000, 1200, 2000, 600, 1200, 2000, 600);
         
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -139,8 +154,8 @@ namespace Lab20WpfApp1.ViewModels
             set
             {
                 double x = RoundDistance(value);
-                Panel.Height = x;
-                height = Panel.Height;
+                wallPanel.Height = x;
+                height = wallPanel.Height;
                 GridHeightRefresh();
                 OnPropertyChanged();
             }
@@ -152,9 +167,9 @@ namespace Lab20WpfApp1.ViewModels
             set
             {
                 double x = RoundDistance(value);
-                Panel.SetApertureHeight(WallPanel.Appertures.leftApperture,x);
-                Panel.SetApertureHeight(WallPanel.Appertures.rightApperture, x);
-                bothApertureHeight = Panel.GetApertureHeight(WallPanel.Appertures.leftApperture);               
+                wallPanel.SetApertureHeight(WallPanel.Appertures.leftApperture,x);
+                wallPanel.SetApertureHeight(WallPanel.Appertures.rightApperture, x);
+                bothApertureHeight = wallPanel.GetApertureHeight(WallPanel.Appertures.leftApperture);               
                 GridHeightRefresh();
                 OnPropertyChanged();
             }
@@ -167,8 +182,8 @@ namespace Lab20WpfApp1.ViewModels
             set
             {
                 double x = RoundDistance(value);
-                Panel.Width = x;
-                width = Panel.Width;
+                wallPanel.Width = x;
+                width = wallPanel.Width;
                 GridWidthRefresh();
                 OnPropertyChanged();
             }
@@ -181,8 +196,8 @@ namespace Lab20WpfApp1.ViewModels
             set
             {
                 double x = RoundDistance(value);
-                Panel.SetApertureWidth(WallPanel.Appertures.leftApperture, x);
-                leftApertureWidth = Panel.GetApertureWidth(WallPanel.Appertures.leftApperture);
+                wallPanel.SetApertureWidth(WallPanel.Appertures.leftApperture, x);
+                leftApertureWidth = wallPanel.GetApertureWidth(WallPanel.Appertures.leftApperture);
                 GridWidthRefresh();
                 //код меняющий ширину скрола прокрутки в соответствии с шириной проема
                 OnPropertyChanged();                
@@ -195,8 +210,8 @@ namespace Lab20WpfApp1.ViewModels
             set
             {
                 double x = RoundDistance(value);
-                Panel.SetApertureWidth(WallPanel.Appertures.rightApperture, x);
-                rightApertureWidth = Panel.GetApertureWidth(WallPanel.Appertures.rightApperture);
+                wallPanel.SetApertureWidth(WallPanel.Appertures.rightApperture, x);
+                rightApertureWidth = wallPanel.GetApertureWidth(WallPanel.Appertures.rightApperture);
                 GridWidthRefresh();
                 //код меняющий ширину скрола прокрутки в соответствии с шириной проема
                 OnPropertyChanged();
@@ -211,8 +226,8 @@ namespace Lab20WpfApp1.ViewModels
             set
             {
                     double x = RoundDistance(value);
-                    Panel.SetAperturePosition(WallPanel.Appertures.leftApperture, x);
-                    leftAperturePosition = Panel.GetAperturePosition(WallPanel.Appertures.leftApperture);
+                wallPanel.SetAperturePosition(WallPanel.Appertures.leftApperture, x);
+                    leftAperturePosition = wallPanel.GetAperturePosition(WallPanel.Appertures.leftApperture);
                     GridWidthRefresh();
                     OnPropertyChanged();
             }
@@ -224,8 +239,8 @@ namespace Lab20WpfApp1.ViewModels
             set
             {
                 double x = RoundDistance(value);
-                Panel.SetAperturePosition(WallPanel.Appertures.rightApperture, x);
-                rightAperturePosition = Panel.GetAperturePosition(WallPanel.Appertures.rightApperture);
+                wallPanel.SetAperturePosition(WallPanel.Appertures.rightApperture, x);
+                rightAperturePosition = wallPanel.GetAperturePosition(WallPanel.Appertures.rightApperture);
                 //sliderForRightAperturePosition = (Width - rightAperturePosition);
                 GridWidthRefresh();
                 OnPropertyChanged();
@@ -235,27 +250,27 @@ namespace Lab20WpfApp1.ViewModels
         public ICommand IsLeftAperture {  get; }
         private void OnIsLeftApertureExecute(object sender)
         {
-           if (Panel.GetApertureWidth(WallPanel.Appertures.leftApperture) > 0)
+           if (wallPanel.GetApertureWidth(WallPanel.Appertures.leftApperture) > 0)
             {
-                Panel.RemoveAperture(WallPanel.Appertures.leftApperture);
+                wallPanel.RemoveAperture(WallPanel.Appertures.leftApperture);
                 LeftAperturePosition = 0;
                 LeftApertureWidth = 0;
             }
             else
             {
-                Panel.CreateAperture(WallPanel.Appertures.leftApperture,
-                    Panel.GetMiddleWidth() / 2,
-                    Panel.GetApertureHeight(WallPanel.Appertures.rightApperture) > 0 ?
-                        Panel.GetApertureHeight(WallPanel.Appertures.rightApperture) :
-                        Panel.Height * 2 / 3);
-                LeftApertureWidth = Panel.GetApertureWidth(WallPanel.Appertures.leftApperture);
-                LeftAperturePosition = Panel.GetAperturePosition(WallPanel.Appertures.leftApperture);
+                wallPanel.CreateAperture(WallPanel.Appertures.leftApperture,
+                    wallPanel.GetMiddleWidth() / 2,
+                    wallPanel.GetApertureHeight(WallPanel.Appertures.rightApperture) > 0 ?
+                        wallPanel.GetApertureHeight(WallPanel.Appertures.rightApperture) :
+                        wallPanel.Height * 2 / 3);
+                LeftApertureWidth = wallPanel.GetApertureWidth(WallPanel.Appertures.leftApperture);
+                LeftAperturePosition = wallPanel.GetAperturePosition(WallPanel.Appertures.leftApperture);
             }           
         }
 
         private bool OnIsLeftApertureCanExecuted(object sender)
         {
-            if ((Panel.GetMiddleWidth() < 500) && (Panel.GetApertureWidth(WallPanel.Appertures.leftApperture) == 0))
+            if ((wallPanel.GetMiddleWidth() < 500) && (wallPanel.GetApertureWidth(WallPanel.Appertures.leftApperture) == 0))
                 return false;
             else return true;
         }
@@ -263,27 +278,27 @@ namespace Lab20WpfApp1.ViewModels
         public ICommand IsRightAperture { get; }
         private void OnIsRightApertureExecute(object sender)
         {
-            if (Panel.GetApertureWidth(WallPanel.Appertures.rightApperture) > 0)
+            if (wallPanel.GetApertureWidth(WallPanel.Appertures.rightApperture) > 0)
             {
-                Panel.RemoveAperture(WallPanel.Appertures.rightApperture);
+                wallPanel.RemoveAperture(WallPanel.Appertures.rightApperture);
                 RightAperturePosition = 0;
                 RightApertureWidth = 0;
             }
             else
             {
-                Panel.CreateAperture(WallPanel.Appertures.rightApperture,
-                    Panel.GetMiddleWidth() / 2,
-                    Panel.GetApertureHeight(WallPanel.Appertures.leftApperture) > 0 ?
-                        Panel.GetApertureHeight(WallPanel.Appertures.leftApperture) :
-                        Panel.Height * 2 / 3);
-                RightApertureWidth = Panel.GetApertureWidth(WallPanel.Appertures.rightApperture);
-                RightAperturePosition = Panel.GetAperturePosition(WallPanel.Appertures.rightApperture);
+                wallPanel.CreateAperture(WallPanel.Appertures.rightApperture,
+                    wallPanel.GetMiddleWidth() / 2,
+                    wallPanel.GetApertureHeight(WallPanel.Appertures.leftApperture) > 0 ?
+                        wallPanel.GetApertureHeight(WallPanel.Appertures.leftApperture) :
+                        wallPanel.Height * 2 / 3);
+                RightApertureWidth = wallPanel.GetApertureWidth(WallPanel.Appertures.rightApperture);
+                RightAperturePosition = wallPanel.GetAperturePosition(WallPanel.Appertures.rightApperture);
             }
         }
 
         private bool OnIsRightApertureCanExecuted(object sender)
         {
-            if ((Panel.GetMiddleWidth() < 500) && (Panel.GetApertureWidth(WallPanel.Appertures.rightApperture) == 0))
+            if ((wallPanel.GetMiddleWidth() < 500) && (wallPanel.GetApertureWidth(WallPanel.Appertures.rightApperture) == 0))
                 return false;
             else return true;
         }
@@ -296,34 +311,34 @@ namespace Lab20WpfApp1.ViewModels
             double rw = RightApertureWidth;
             double rp = RightAperturePosition;
 
-            if (Panel.GetApertureWidth(WallPanel.Appertures.rightApperture) > 0 && Panel.GetApertureWidth(WallPanel.Appertures.leftApperture) > 0)
+            if (wallPanel.GetApertureWidth(WallPanel.Appertures.rightApperture) > 0 && wallPanel.GetApertureWidth(WallPanel.Appertures.leftApperture) > 0)
             {                
                 RightAperturePosition = LeftAperturePosition;
                 RightApertureWidth = LeftApertureWidth;
                 LeftAperturePosition = rp;
                 LeftApertureWidth = rw;
             }
-            else if (Panel.GetApertureWidth(WallPanel.Appertures.rightApperture) > 0)
+            else if (wallPanel.GetApertureWidth(WallPanel.Appertures.rightApperture) > 0)
             {
-                Panel.CreateAperture(WallPanel.Appertures.leftApperture,
+                wallPanel.CreateAperture(WallPanel.Appertures.leftApperture,
                    RightApertureWidth,
                    BothApertureHeight,
                    RightAperturePosition);
-                LeftApertureWidth = Panel.GetApertureWidth(WallPanel.Appertures.leftApperture);
-                LeftAperturePosition = Panel.GetAperturePosition(WallPanel.Appertures.leftApperture);
-                Panel.RemoveAperture(WallPanel.Appertures.rightApperture);
+                LeftApertureWidth = wallPanel.GetApertureWidth(WallPanel.Appertures.leftApperture);
+                LeftAperturePosition = wallPanel.GetAperturePosition(WallPanel.Appertures.leftApperture);
+                wallPanel.RemoveAperture(WallPanel.Appertures.rightApperture);
                 RightAperturePosition = 0;
                 RightApertureWidth = 0;
             }
             else
             {
-                Panel.CreateAperture(WallPanel.Appertures.rightApperture,
+                wallPanel.CreateAperture(WallPanel.Appertures.rightApperture,
                    LeftApertureWidth,
                    BothApertureHeight,
                    LeftAperturePosition);
-                RightApertureWidth = Panel.GetApertureWidth(WallPanel.Appertures.rightApperture);
-                RightAperturePosition = Panel.GetAperturePosition(WallPanel.Appertures.rightApperture);
-                Panel.RemoveAperture(WallPanel.Appertures.leftApperture);
+                RightApertureWidth = wallPanel.GetApertureWidth(WallPanel.Appertures.rightApperture);
+                RightAperturePosition = wallPanel.GetAperturePosition(WallPanel.Appertures.rightApperture);
+                wallPanel.RemoveAperture(WallPanel.Appertures.leftApperture);
                 LeftAperturePosition = 0;
                 LeftApertureWidth = 0;
             }
@@ -331,24 +346,53 @@ namespace Lab20WpfApp1.ViewModels
 
         private bool OnMirrorPanelCanExecuted(object sender)
         {
-            if ((Panel.GetApertureWidth(WallPanel.Appertures.leftApperture) == 0) && (Panel.GetApertureWidth(WallPanel.Appertures.rightApperture) == 0))
+            if ((wallPanel.GetApertureWidth(WallPanel.Appertures.leftApperture) == 0) && (wallPanel.GetApertureWidth(WallPanel.Appertures.rightApperture) == 0))
                 return false;
             else return true;
         }
 
+        public void installWallPanel (WallPanel wallPanel)
+        {
+            Height = wallPanel.Height;
+            Width = wallPanel.Width;
+            BothApertureHeight = wallPanel.GetApertureHeight(WallPanel.Appertures.leftApperture);
+            LeftApertureWidth = wallPanel.GetApertureWidth(WallPanel.Appertures.leftApperture);
+            LeftAperturePosition = wallPanel.GetAperturePosition(WallPanel.Appertures.leftApperture);
+            RightAperturePosition = wallPanel.GetAperturePosition(WallPanel.Appertures.rightApperture);
+            RightApertureWidth = wallPanel.GetApertureWidth(WallPanel.Appertures.rightApperture);
+
+        }
+
+
+        //попытка сделать выбор панели через команду - непонятно как получить выбранный элемент listbox'a
+        public ICommand SelectPanel { get; }
+        private void OnSelectPanelExecute(object sender)
+        {
+            //(sender as ListBox).SelectedItem as Family);
+            MessageBox.Show("Вы выбрали ");
+        }
+
+        private bool OnSelectPanelCanExecuted(object sender)
+        {
+            return true;
+        }
+
+        public void familySelected(object sender, SelectionChangedEventArgs e)
+        {
+            //Family selectedFamily = (Family)(sender as ListBox).SelectedItem;
+            // string newMessage = selectedFamily.Name;
+            // MessageBox.Show("Вы выбрали " + newMessage);
+            MessageBox.Show("Hallo");
+        }
+
         public MainWindowViewModel()
         {
-            Height = Panel.Height;
-            Width = Panel.Width;
-            BothApertureHeight = Panel.GetApertureHeight(WallPanel.Appertures.leftApperture);
-            LeftApertureWidth = Panel.GetApertureWidth(WallPanel.Appertures.leftApperture);
-            LeftAperturePosition = Panel.GetAperturePosition(WallPanel.Appertures.leftApperture);
-            RightAperturePosition = Panel.GetAperturePosition(WallPanel.Appertures.rightApperture);
-            RightApertureWidth = Panel.GetApertureWidth(WallPanel.Appertures.rightApperture);
-
+            installWallPanel(wallPanel);
             IsLeftAperture = new RelayCommand(OnIsLeftApertureExecute, OnIsLeftApertureCanExecuted);
             IsRightAperture = new RelayCommand(OnIsRightApertureExecute, OnIsRightApertureCanExecuted);
             MirrorPanel = new RelayCommand(OnMirrorPanelExecute, OnMirrorPanelCanExecuted);
+            SelectPanel = new RelayCommand(OnSelectPanelExecute, OnSelectPanelCanExecuted);
+
 
         }
 

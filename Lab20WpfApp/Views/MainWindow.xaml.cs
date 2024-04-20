@@ -44,7 +44,7 @@ namespace Lab20WpfApp
             AmountOfSamples = 3,
         };
             MainWindowViewModel viewModel = new MainWindowViewModel();
-            Family currentFamily = viewModel.Panel;
+            Family currentFamily = viewModel.wallPanel;
 
             families.Add(family1);
             families.Add(family2);
@@ -80,6 +80,15 @@ namespace Lab20WpfApp
 
             //newTemplate.VisualTree = root;
 
+        }
+               
+        //попытка изменить свойства выбранной панели - не понятно как связать между собой объекты window и WindowViewModel
+        private void listBox_Selected(object sender, SelectionChangedEventArgs e)
+        {
+            string newMessage = (listBox.SelectedItem as Family).Name;
+            
+            MessageBox.Show("Вы выбрали " + newMessage);
+            
         }
     }
 }
