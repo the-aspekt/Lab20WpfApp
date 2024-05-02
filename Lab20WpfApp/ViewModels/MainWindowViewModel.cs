@@ -52,21 +52,10 @@ namespace Lab20WpfApp1.ViewModels
         private void OnIsLeftApertureExecute(object sender)
         {
            if (wallPanel.GetApertureWidth(WallPanel.Appertures.leftApperture) > 0)
-            {
-                wallPanel.RemoveAperture(WallPanel.Appertures.leftApperture);
-                wallPanel.LeftAperturePosition = 0;
-                wallPanel.LeftApertureWidth = 0;
-            }
-            else
-            {
-                wallPanel.CreateAperture(WallPanel.Appertures.leftApperture,
-                    wallPanel.GetMiddleWidth() / 2,
-                    wallPanel.GetApertureHeight(WallPanel.Appertures.rightApperture) > 0 ?
-                        wallPanel.GetApertureHeight(WallPanel.Appertures.rightApperture) :
-                        wallPanel.Height * 2 / 3);
-                wallPanel.LeftApertureWidth = wallPanel.GetApertureWidth(WallPanel.Appertures.leftApperture);
-                wallPanel.LeftAperturePosition = wallPanel.GetAperturePosition(WallPanel.Appertures.leftApperture);
-            }           
+                wallPanel.RemoveAperture(WallPanel.Appertures.leftApperture);      
+            else            
+                wallPanel.CreateAperture(WallPanel.Appertures.leftApperture);
+               
         }
         private bool OnIsLeftApertureCanExecuted(object sender)
         {
@@ -78,21 +67,9 @@ namespace Lab20WpfApp1.ViewModels
         private void OnIsRightApertureExecute(object sender)
         {
             if (wallPanel.GetApertureWidth(WallPanel.Appertures.rightApperture) > 0)
-            {
                 wallPanel.RemoveAperture(WallPanel.Appertures.rightApperture);
-                wallPanel.RightAperturePosition = 0;
-                wallPanel.RightApertureWidth = 0;
-            }
             else
-            {
-                wallPanel.CreateAperture(WallPanel.Appertures.rightApperture,
-                    wallPanel.GetMiddleWidth() / 2,
-                    wallPanel.GetApertureHeight(WallPanel.Appertures.leftApperture) > 0 ?
-                        wallPanel.GetApertureHeight(WallPanel.Appertures.leftApperture) :
-                        wallPanel.Height * 2 / 3);
-                wallPanel.RightApertureWidth = wallPanel.GetApertureWidth(WallPanel.Appertures.rightApperture);
-                wallPanel.RightAperturePosition = wallPanel.GetAperturePosition(WallPanel.Appertures.rightApperture);
-            }
+                wallPanel.CreateAperture(WallPanel.Appertures.rightApperture);
         }
         private bool OnIsRightApertureCanExecuted(object sender)
         {
@@ -104,42 +81,48 @@ namespace Lab20WpfApp1.ViewModels
         public ICommand MirrorPanel { get; }
         private void OnMirrorPanelExecute(object sender)
         {
-            //Slider leftApertureSlider = slider1.Value;
-            //SliderWidthChange();
-            double rw = wallPanel.RightApertureWidth;
-            double rp = wallPanel.RightAperturePosition;
+            if (sender as WallPanel != null)
+            {
+                WallPanel recentWallPanel = sender as WallPanel;
+                wallPanel.MirrorPanel(recentWallPanel);
+            }
+            
+            ////Slider leftApertureSlider = slider1.Value;
+            ////SliderWidthChange();
+            //double rw = wallPanel.RightApertureWidth;
+            //double rp = wallPanel.RightAperturePosition;
 
-            if (wallPanel.GetApertureWidth(WallPanel.Appertures.rightApperture) > 0 && wallPanel.GetApertureWidth(WallPanel.Appertures.leftApperture) > 0)
-            {                
-                wallPanel.RightAperturePosition = wallPanel.LeftAperturePosition;
-                wallPanel.RightApertureWidth = wallPanel.LeftApertureWidth;
-                wallPanel.LeftAperturePosition = rp;
-                wallPanel.LeftApertureWidth = rw;
-            }
-            else if (wallPanel.GetApertureWidth(WallPanel.Appertures.rightApperture) > 0)
-            {
-                wallPanel.CreateAperture(WallPanel.Appertures.leftApperture,
-                   wallPanel.RightApertureWidth,
-                   wallPanel.BothApertureHeight,
-                   wallPanel.RightAperturePosition);
-                wallPanel.LeftApertureWidth = wallPanel.GetApertureWidth(WallPanel.Appertures.leftApperture);
-                wallPanel.LeftAperturePosition = wallPanel.GetAperturePosition(WallPanel.Appertures.leftApperture);
-                wallPanel.RemoveAperture(WallPanel.Appertures.rightApperture);
-                wallPanel.RightAperturePosition = 0;
-                wallPanel.RightApertureWidth = 0;
-            }
-            else
-            {
-                wallPanel.CreateAperture(WallPanel.Appertures.rightApperture,
-                   wallPanel.LeftApertureWidth,
-                   wallPanel.BothApertureHeight,
-                   wallPanel.LeftAperturePosition);
-                wallPanel.RightApertureWidth = wallPanel.GetApertureWidth(WallPanel.Appertures.rightApperture);
-                wallPanel.RightAperturePosition = wallPanel.GetAperturePosition(WallPanel.Appertures.rightApperture);
-                wallPanel.RemoveAperture(WallPanel.Appertures.leftApperture);
-                wallPanel.LeftAperturePosition = 0;
-                wallPanel.LeftApertureWidth = 0;
-            }
+            //if (wallPanel.GetApertureWidth(WallPanel.Appertures.rightApperture) > 0 && wallPanel.GetApertureWidth(WallPanel.Appertures.leftApperture) > 0)
+            //{                
+            //    wallPanel.RightAperturePosition = wallPanel.LeftAperturePosition;
+            //    wallPanel.RightApertureWidth = wallPanel.LeftApertureWidth;
+            //    wallPanel.LeftAperturePosition = rp;
+            //    wallPanel.LeftApertureWidth = rw;
+            //}
+            //else if (wallPanel.GetApertureWidth(WallPanel.Appertures.rightApperture) > 0)
+            //{
+            //    wallPanel.CreateAperture(WallPanel.Appertures.leftApperture,
+            //       wallPanel.RightApertureWidth,
+            //       wallPanel.BothApertureHeight,
+            //       wallPanel.RightAperturePosition);
+            //    wallPanel.LeftApertureWidth = wallPanel.GetApertureWidth(WallPanel.Appertures.leftApperture);
+            //    wallPanel.LeftAperturePosition = wallPanel.GetAperturePosition(WallPanel.Appertures.leftApperture);
+            //    wallPanel.RemoveAperture(WallPanel.Appertures.rightApperture);
+            //    wallPanel.RightAperturePosition = 0;
+            //    wallPanel.RightApertureWidth = 0;
+            //}
+            //else
+            //{
+            //    wallPanel.CreateAperture(WallPanel.Appertures.rightApperture,
+            //       wallPanel.LeftApertureWidth,
+            //       wallPanel.BothApertureHeight,
+            //       wallPanel.LeftAperturePosition);
+            //    wallPanel.RightApertureWidth = wallPanel.GetApertureWidth(WallPanel.Appertures.rightApperture);
+            //    wallPanel.RightAperturePosition = wallPanel.GetAperturePosition(WallPanel.Appertures.rightApperture);
+            //    wallPanel.RemoveAperture(WallPanel.Appertures.leftApperture);
+            //    wallPanel.LeftAperturePosition = 0;
+            //    wallPanel.LeftApertureWidth = 0;
+            //}
         }
         private bool OnMirrorPanelCanExecuted(object sender)
         {

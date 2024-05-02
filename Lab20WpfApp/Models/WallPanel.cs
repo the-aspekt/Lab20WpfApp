@@ -152,8 +152,8 @@ namespace Lab20WpfApp.Models
             }
         }
 
-        public Apperture leftApperture = null;
-            public Apperture rightApperture = null;
+            public Apperture leftApperture;
+            public Apperture rightApperture;
             
             public enum Appertures
             {
@@ -198,7 +198,8 @@ namespace Lab20WpfApp.Models
             }
                     
             this.BothApertureHeight = heightApp;
-            
+            GridWidthRefresh();
+            GridHeightRefresh();
             RefreshName();
             }
             public WallPanel(double width, double height, double widthApp, double heightApp, double positioningApp, double widthApp2, double heightApp2, double positioningApp2)
@@ -215,6 +216,8 @@ namespace Lab20WpfApp.Models
             this.leftAperturePosition = positioningApp;
             this.leftApertureWidth = widthApp;
             this.BothApertureHeight = heightApp;
+            GridWidthRefresh();
+            GridHeightRefresh();
             RefreshName();
             }
 
@@ -323,16 +326,38 @@ namespace Lab20WpfApp.Models
                     else
                     MessageBox.Show("Невозможно создать панель с параметрами ширины, равной " + width + " и высоты равной " + height);
                 }
-            public void RemoveAperture(Appertures apperture)
+        public void CreateAperture(Appertures apperture)
+        {
+            if (apperture == Appertures.leftApperture)
+            {
+                this.leftApperture = new Apperture(GetMiddleWidth() / 2, Height * 2 / 3, 0);
+                LeftApertureWidth = GetApertureWidth(apperture);
+                LeftAperturePosition = GetAperturePosition(apperture);
+
+            }
+            else if (apperture == Appertures.rightApperture)
+            {
+                this.rightApperture = new Apperture(GetMiddleWidth() / 2, Height * 2 / 3, 0);
+                RightApertureWidth = GetApertureWidth(apperture);
+                RightAperturePosition = GetAperturePosition(apperture);
+            }
+            
+        }
+
+        public void RemoveAperture(Appertures apperture)
                 {
                     if (apperture == Appertures.leftApperture)
                     {
                         this.leftApperture = null;
-                    }
+                LeftAperturePosition = 0;
+                LeftApertureWidth = 0;
+            }
                     else if (apperture == Appertures.rightApperture)
                     {
                         this.rightApperture = null;
-                    }
+                RightAperturePosition = 0;
+                RightApertureWidth = 0;
+            }
                 }       
 
             public void RefreshName()
@@ -363,78 +388,80 @@ namespace Lab20WpfApp.Models
             wallPanel = JsonConvert.DeserializeObject<WallPanel>(json);
             return (T)(Family)wallPanel;
         }
+        #region grid parameters
+            public string upperLintelGridHeight;
+            public string UpperLintelGridHeight
+            {
+                get { return upperLintelGridHeight; }
+                set
+                {
+                    upperLintelGridHeight = value;
+                    OnPropertyChanged();
+                }
+            }
+            public string apertureGridHeight;
+            public string ApertureGridHeight
+            {
+                get { return apertureGridHeight; }
+                set
+                {
+                    apertureGridHeight = value;
+                    OnPropertyChanged();
+                }
+            }
+            public string leftAperturePositionGridWidth;
+            public string LeftAperturePositionGridWidth
+            {
+                get { return leftAperturePositionGridWidth; }
+                set
+                {
+                    leftAperturePositionGridWidth = value;
 
-        public string upperLintelGridHeight = "0.3*";
-        public string UpperLintelGridHeight
-        {
-            get { return upperLintelGridHeight; }
-            set
-            {
-                upperLintelGridHeight = value;
-                OnPropertyChanged();
+                    OnPropertyChanged();
+                }
             }
-        }
-        public string apertureGridHeight = "0.7*";
-        public string ApertureGridHeight
-        {
-            get { return apertureGridHeight; }
-            set
+            public string rightAperturePositionGridWidth;
+            public string RightAperturePositionGridWidth
             {
-                apertureGridHeight = value;
-                OnPropertyChanged();
+                get { return rightAperturePositionGridWidth; }
+                set
+                {
+                    rightAperturePositionGridWidth = value;
+                    OnPropertyChanged();
+                }
             }
-        }
-        public string leftAperturePositionGridWidth = "0.1*";
-        public string LeftAperturePositionGridWidth
-        {
-            get { return leftAperturePositionGridWidth; }
-            set
+            public string leftApertureGridWidth;
+            public string LeftApertureGridWidth
             {
-                leftAperturePositionGridWidth = value;
+                get { return leftApertureGridWidth; }
+                set
+                {
+                    leftApertureGridWidth = value;
+                    OnPropertyChanged();
+                }
+            }
+            public string rightApertureGridWidth;
+            public string RightApertureGridWidth
+            {
+                get { return rightApertureGridWidth; }
+                set
+                {
+                    rightApertureGridWidth = value;
+                    OnPropertyChanged();
+                }
+            }
+            public string mainSegmentGridWidth;
+            public string MainSegmentGridWidth
+            {
+                get { return mainSegmentGridWidth; }
+                set
+                {
+                    mainSegmentGridWidth = value;
+                    OnPropertyChanged();
+                }
+            }
+        #endregion
 
-                OnPropertyChanged();
-            }
-        }
-        public string rightAperturePositionGridWidth = "0.1*";
-        public string RightAperturePositionGridWidth
-        {
-            get { return rightAperturePositionGridWidth; }
-            set
-            {
-                rightAperturePositionGridWidth = value;
-                OnPropertyChanged();
-            }
-        }
-        public string leftApertureGridWidth = "0.2*";
-        public string LeftApertureGridWidth
-        {
-            get { return leftApertureGridWidth; }
-            set
-            {
-                leftApertureGridWidth = value;
-                OnPropertyChanged();
-            }
-        }
-        public string rightApertureGridWidth = "0.2*";
-        public string RightApertureGridWidth
-        {
-            get { return rightApertureGridWidth; }
-            set
-            {
-                rightApertureGridWidth = value;
-                OnPropertyChanged();
-            }
-        }
-        public string mainSegmentGridWidth = "0.4*";
-        public string MainSegmentGridWidth
-        {
-            get { return mainSegmentGridWidth; }
-            set
-            {
-                mainSegmentGridWidth = value;
-                OnPropertyChanged();
-            }
-        }
         //обновление разметки панели
         public void GridHeightRefresh()
         {
@@ -455,17 +482,29 @@ namespace Lab20WpfApp.Models
         }
         public void InstallWallPanel(WallPanel newWallPanel)
         {
-            this.Height = newWallPanel.Height;
+            
             this.Width = newWallPanel.Width;
-            this.BothApertureHeight = newWallPanel.GetApertureHeight(WallPanel.Appertures.leftApperture);
-            this.LeftApertureWidth = newWallPanel.GetApertureWidth(WallPanel.Appertures.leftApperture);
-            this.LeftAperturePosition = newWallPanel.GetAperturePosition(WallPanel.Appertures.leftApperture);
-            this.RightAperturePosition = newWallPanel.GetAperturePosition(WallPanel.Appertures.rightApperture);
-            this.RightApertureWidth = newWallPanel.GetApertureWidth(WallPanel.Appertures.rightApperture);
+            this.BothApertureHeight = newWallPanel.GetApertureHeight(Appertures.leftApperture);
             this.Height = newWallPanel.Height;
+            this.LeftApertureWidth = newWallPanel.GetApertureWidth(Appertures.leftApperture);
+            this.LeftAperturePosition = newWallPanel.GetAperturePosition(Appertures.leftApperture);
+            this.RightAperturePosition = newWallPanel.GetAperturePosition(Appertures.rightApperture);
+            this.RightApertureWidth = newWallPanel.GetApertureWidth(Appertures.rightApperture);
             this.Width = newWallPanel.Width;
-            this.GridWidthRefresh();
-            this.GridHeightRefresh();
+            GridWidthRefresh();
+            GridHeightRefresh();
+        }
+        public void MirrorPanel(WallPanel recentWallPanel)
+        {            
+            WallPanel mirroredPanel = new WallPanel(recentWallPanel.Width,
+                recentWallPanel.Height,
+                recentWallPanel.RightApertureWidth,
+                recentWallPanel.BothApertureHeight,
+                recentWallPanel.RightAperturePosition,
+                recentWallPanel.LeftApertureWidth,
+                recentWallPanel.BothApertureHeight,
+                recentWallPanel.LeftAperturePosition);
+            this.InstallWallPanel(mirroredPanel);
         }
     }
 }

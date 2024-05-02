@@ -367,7 +367,7 @@
             <TextBox Grid.Column="1" Grid.Row="6"  DataContext="{Binding WallPanel, UpdateSourceTrigger=PropertyChanged}" Text="{Binding RightAperturePosition, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Stretch" TextAlignment="Right" VerticalAlignment="Center"/>
             <Label Grid.Column="0" Grid.Row="7" Grid.ColumnSpan="2" DataContext="{Binding WallPanel, UpdateSourceTrigger=PropertyChanged}" Content="{Binding Name}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
 
-            <Button Grid.Row="8" Grid.ColumnSpan="2" Content="Отзеркалить" Command="{Binding MirrorPanel}"/>
+            <Button Grid.Row="8" Grid.ColumnSpan="2" Content="Отзеркалить" Command="{Binding MirrorPanel}" CommandParameter="{Binding WallPanel}"/>
 
     
             <StackPanel  Grid.Column="0" Grid.Row="9" Grid.ColumnSpan="2" VerticalAlignment="Bottom" HorizontalAlignment="Right">
