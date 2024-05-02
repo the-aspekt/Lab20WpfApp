@@ -17,6 +17,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+
 namespace Lab20WpfApp
 {
     /// <summary>
@@ -24,34 +25,11 @@ namespace Lab20WpfApp
     /// </summary>
     public partial class MainWindow : Window
     {
-        public ObservableCollection<Family> families;
+       
 
         public MainWindow()
         {
             InitializeComponent();
-
-            families = new ObservableCollection<Family>();
-
-        // families.Add(WallPanel Panel);
-
-        Family family1 = new WallPanel()
-        {            
-            AmountOfSamples = 5
-        };
-
-        Family family2 = new WallPanel()
-        {            
-            AmountOfSamples = 3,
-        };
-            MainWindowViewModel viewModel = new MainWindowViewModel();
-            Family currentFamily = viewModel.wallPanel;
-
-            families.Add(family1);
-            families.Add(family2);
-            families.Add(currentFamily);
-
-            //теперь нужно всё это поместить во всплывающий список сверху и добавить опцию сохранения
-            listBox.ItemsSource = families;
         }
     //пытаюсь настроить ширину thumb соответствующую ширине проема
     private void Button_Click(object sender, RoutedEventArgs e)
@@ -82,13 +60,18 @@ namespace Lab20WpfApp
 
         }
                
-        //попытка изменить свойства выбранной панели - не понятно как связать между собой объекты window и WindowViewModel
+        //попытка изменить свойства выбранной панели
+        //не понятно как связать между собой объекты window и WindowViewModel
+        //наверное нужно формировать контент listbox'a в MWVM?
         private void listBox_Selected(object sender, SelectionChangedEventArgs e)
         {
-            string newMessage = (listBox.SelectedItem as Family).Name;
-            
+            string newMessage = (listBox.SelectedItem as Family).Name;            
             MessageBox.Show("Вы выбрали " + newMessage);
-            
+
+            WallPanel newPanel = (listBox.SelectedItem as WallPanel);
+            string json = newPanel.EncodeJSON();
+            MessageBox.Show("Вы получили " + json);
+
         }
     }
 }

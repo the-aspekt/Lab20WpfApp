@@ -312,8 +312,8 @@
     </Window.Resources>
     <DockPanel>
         <Menu DockPanel.Dock="Top">
-            <MenuItem Header="Функция 1"/>
-            <MenuItem Header="Функция 2"/>
+            <MenuItem Header="З_агрузить" Command="{Binding LoadFamily}"/>
+            <MenuItem Header="С_охранить" Command="{Binding SaveFamily}"/>
             <ComboBox x:Name="FamilySelector"
                       Width="300"
                       HorizontalContentAlignment="Stretch"
@@ -325,9 +325,11 @@
                 <ListBox x:Name="listBox" 
                      MaxHeight="600"
                      ItemTemplate="{StaticResource familyTemplate}" 
+                     ItemsSource="{Binding Families}"
+                     SelectedItem="{Binding WallPanel}"
                      HorizontalContentAlignment="Stretch"
                      ScrollViewer.VerticalScrollBarVisibility="Auto" 
-                     SelectionChanged="listBox_Selected" />
+                     />
 
             </ComboBox>
         </Menu>
@@ -350,20 +352,22 @@
                 <RowDefinition Height="23"/>
             </Grid.RowDefinitions>
             <Label Grid.Row="0"    Content="Высота панели"/>
-            <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding Height}" HorizontalAlignment="Stretch" TextAlignment="Right" VerticalAlignment="Center"/>
+            <TextBox Grid.Column="1" Grid.Row="0" DataContext="{Binding WallPanel, UpdateSourceTrigger=PropertyChanged}" Text="{Binding Height}" HorizontalAlignment="Stretch" TextAlignment="Right" VerticalAlignment="Center"/>
             <Label Grid.Row="1"    Content="Ширина панели"/>
-            <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding Width}" HorizontalAlignment="Stretch" TextAlignment="Right" VerticalAlignment="Center"/>
+            <TextBox Grid.Column="1" Grid.Row="1" DataContext="{Binding WallPanel, UpdateSourceTrigger=PropertyChanged}" Text="{Binding Width}" HorizontalAlignment="Stretch" TextAlignment="Right" VerticalAlignment="Center"/>
             <Label Grid.Row="2"    Content="Высота проёмов"/>
-            <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding BothApertureHeight}" HorizontalAlignment="Stretch" TextAlignment="Right" VerticalAlignment="Center"/>
+            <TextBox Grid.Column="1" Grid.Row="2" DataContext="{Binding WallPanel, UpdateSourceTrigger=PropertyChanged}" Text="{Binding BothApertureHeight}" HorizontalAlignment="Stretch" TextAlignment="Right" VerticalAlignment="Center"/>
             <Label Grid.Row="3"    Content="Ширина левого проема"/>
-            <TextBox Grid.Column="1" Grid.Row="3" Text="{Binding LeftApertureWidth}" HorizontalAlignment="Stretch" TextAlignment="Right" VerticalAlignment="Center"/>
+            <TextBox Grid.Column="1" Grid.Row="3" DataContext="{Binding WallPanel, UpdateSourceTrigger=PropertyChanged}" Text="{Binding LeftApertureWidth, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Stretch" TextAlignment="Right" VerticalAlignment="Center"/>
             <Label Grid.Row="4"    Content="Привязка левого проема"/>
-            <TextBox Grid.Column="1" Grid.Row="4" Text="{Binding LeftAperturePosition}" HorizontalAlignment="Stretch" TextAlignment="Right" VerticalAlignment="Center"/>
+            <TextBox Grid.Column="1" Grid.Row="4" DataContext="{Binding WallPanel, UpdateSourceTrigger=PropertyChanged}" Text="{Binding LeftAperturePosition, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Stretch" TextAlignment="Right" VerticalAlignment="Center"/>
             <Label Grid.Row="5"    Content="Ширина правого проема"/>
-            <TextBox Grid.Column="1" Grid.Row="5" Text="{Binding RightApertureWidth}" HorizontalAlignment="Stretch" TextAlignment="Right" VerticalAlignment="Center"/>
+            <TextBox Grid.Column="1" Grid.Row="5" DataContext="{Binding WallPanel, UpdateSourceTrigger=PropertyChanged}" Text="{Binding RightApertureWidth, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Stretch" TextAlignment="Right" VerticalAlignment="Center"/>
             <Label Grid.Row="6"    Content="Привязка правого проема"/>
-            <TextBox Grid.Column="1" Grid.Row="6" Text="{Binding RightAperturePosition}" HorizontalAlignment="Stretch" TextAlignment="Right" VerticalAlignment="Center"/>
-            <Button Grid.Row="7" Grid.ColumnSpan="2" Content="Отзеркалить" Command="{Binding MirrorPanel}"/>
+            <TextBox Grid.Column="1" Grid.Row="6"  DataContext="{Binding WallPanel, UpdateSourceTrigger=PropertyChanged}" Text="{Binding RightAperturePosition, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Stretch" TextAlignment="Right" VerticalAlignment="Center"/>
+            <Label Grid.Column="0" Grid.Row="7" Grid.ColumnSpan="2" DataContext="{Binding WallPanel, UpdateSourceTrigger=PropertyChanged}" Content="{Binding Name}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+            <Button Grid.Row="8" Grid.ColumnSpan="2" Content="Отзеркалить" Command="{Binding MirrorPanel}"/>
 
     
             <StackPanel  Grid.Column="0" Grid.Row="9" Grid.ColumnSpan="2" VerticalAlignment="Bottom" HorizontalAlignment="Right">
@@ -386,15 +390,15 @@
             <Border Grid.Row="1" Grid.Column="1">
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="{Binding LeftAperturePositionGridWidth}"/>
-                        <ColumnDefinition Width="{Binding LeftApertureGridWidth}"/>
-                        <ColumnDefinition Width="{Binding MainSegmentGridWidth}"/>
-                        <ColumnDefinition Width="{Binding RightApertureGridWidth}"/>
-                        <ColumnDefinition Width="{Binding RightAperturePositionGridWidth}"/>
+                        <ColumnDefinition DataContext="{Binding WallPanel, UpdateSourceTrigger=PropertyChanged}" Width="{Binding LeftAperturePositionGridWidth}"/>
+                        <ColumnDefinition DataContext="{Binding WallPanel, UpdateSourceTrigger=PropertyChanged}" Width="{Binding LeftApertureGridWidth}"/>
+                        <ColumnDefinition DataContext="{Binding WallPanel, UpdateSourceTrigger=PropertyChanged}" Width="{Binding MainSegmentGridWidth}"/>
+                        <ColumnDefinition DataContext="{Binding WallPanel, UpdateSourceTrigger=PropertyChanged}" Width="{Binding RightApertureGridWidth}"/>
+                        <ColumnDefinition DataContext="{Binding WallPanel, UpdateSourceTrigger=PropertyChanged}" Width="{Binding RightAperturePositionGridWidth}"/>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="{Binding UpperLintelGridHeight}"/>
-                        <RowDefinition Height="{Binding ApertureGridHeight}"/>
+                        <RowDefinition DataContext="{Binding WallPanel, UpdateSourceTrigger=PropertyChanged}" Height="{Binding UpperLintelGridHeight}"/>
+                        <RowDefinition DataContext="{Binding WallPanel, UpdateSourceTrigger=PropertyChanged}" Height="{Binding ApertureGridHeight}"/>
                         <RowDefinition Height="25"/>
                         <RowDefinition Height="25"/>
                     </Grid.RowDefinitions>
@@ -412,13 +416,15 @@
                     <Slider Style="{DynamicResource SliderStyle1}" 
                             Grid.Column="0" Grid.Row="2"  Grid.ColumnSpan="5"
                             Name="slider1" VerticalAlignment="Center" 
-                            Value="{Binding LeftAperturePosition, Mode=TwoWay}"
+                            DataContext="{Binding WallPanel, UpdateSourceTrigger=PropertyChanged}"
+                            Value="{Binding LeftAperturePosition, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                             Minimum="0"
                             Maximum="{Binding Width}"
                             />
 
                     <Slider Grid.Column="0" Grid.Row="3"  Grid.ColumnSpan="5"  Name="slider2" VerticalAlignment="Center"
-                            Value="{Binding RightAperturePosition, Mode=TwoWay}"
+                            DataContext="{Binding WallPanel, UpdateSourceTrigger=PropertyChanged}" 
+                            Value="{Binding RightAperturePosition, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                             Minimum="0"
                             Maximum="{Binding Width}" IsDirectionReversed="True"
                           >                        

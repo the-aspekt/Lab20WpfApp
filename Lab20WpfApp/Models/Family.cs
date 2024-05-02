@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -15,16 +17,63 @@ namespace Lab20WpfApp.Models
         Column
     }
 
-    public abstract class Family
+    public abstract class Family : INotifyPropertyChanged
     {
-        public string Name { get; set; }
-        public string Description { get; set; }
+        private string name;
+        public string Name
+        {
+            get => name;
+            set
+            {
+                name = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private string description;
+        public string Description
+        {
+            get => description;
+            set
+            {
+                description = value;
+                OnPropertyChanged();
+            }
+        }
+
         public FamilyTypes FamilyType { get; set; }
-        public int AmountOfSamples { get; set; }
+
+        private int amountOfSamples;
+        public int AmountOfSamples
+        {
+            get => amountOfSamples;
+            set
+            {
+                amountOfSamples = value;
+                OnPropertyChanged();
+            }
+        }
+
         public string ImagePath { get; set; }
-        public string Label { get; set; }
+        
+        private string label;
+        public  string Label
+        {
+            get => label;
+            set
+            {
+                label = value;
+                OnPropertyChanged();
+            }
+        }
 
-        public abstract void RefreshName();
+        public event PropertyChangedEventHandler PropertyChanged;
+        public void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
 
+        public abstract void SaveToJSON();
+        public abstract T DecodeJSON<T>(string json) where T : Family;
     }
 }
