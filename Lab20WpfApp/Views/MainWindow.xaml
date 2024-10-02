@@ -371,10 +371,15 @@
 
     
             <StackPanel  Grid.Column="0" Grid.Row="9" Grid.ColumnSpan="2" VerticalAlignment="Bottom" HorizontalAlignment="Right">
-                <Button Grid.Row="7" Grid.ColumnSpan="2" Content="изменить ширину" Click="Button_Click" IsEnabled="False"/>
-                <Label   Content="Привязка левого проема" Height="25" HorizontalAlignment="Right"/>
-                <Label   Content="Привязка правого проема" Height="25" HorizontalAlignment="Right"/>
+                <Button  Content="connect DB" Command="{Binding ConnectDB}"/>
+                <Button  Content="add to DB" Command="{Binding FillInDB}"/>
+                <Button  Content="read DB" Command="{Binding ReadDB}"/>
+                <Button  Content="изменить ширину" Click="Button_Click" IsEnabled="False"/>
+                <!--<Label   Content="Привязка левого проема" Height="25" HorizontalAlignment="Right"/>
+                <Label   Content="Привязка правого проема" Height="25" HorizontalAlignment="Right"/>-->
+                <TextBlock Text="{Binding TableDate, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap"/>
             </StackPanel>
+            <Label Grid.Column="0" Grid.Row="10" Grid.ColumnSpan="2" Content="{Binding DbStatusText, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
         </Grid>
         <Grid DockPanel.Dock="Right">
             <Grid.ColumnDefinitions>

@@ -1,6 +1,7 @@
 ﻿using Lab20WpfApp;
 using Lab20WpfApp.Models;
 using Lab20WpfApp.ViewModels;
+using Microsoft.Data.Sqlite;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
@@ -17,6 +18,13 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Xml.Linq;
+using SQLitePCL;
+using System.Windows.Documents;
+using System.Data.Common;
+using System.Data;
+using System.Data.SQLite;
+
+
 
 namespace Lab20WpfApp1.ViewModels
 {
@@ -159,6 +167,7 @@ namespace Lab20WpfApp1.ViewModels
             return true;
         }
         //попытка сделать выбор панели через команду - непонятно как получить выбранный элемент listbox'a       
+        
         public ICommand SelectPanel { get; }
         private void OnSelectPanelExecute(object sender)
         {
@@ -185,14 +194,143 @@ namespace Lab20WpfApp1.ViewModels
 
         public ObservableCollection<Family> Families { get; set; }
 
+        private SQLiteConnection m_dbConn;
+        private SQLiteCommand m_sqlCmd;
+        private string dbFileName = "mydatabase.db";
+        private string _dbStatusText {  get; set; }
+        public string DbStatusText
+        {
+            get { return _dbStatusText; }
+            set
+            {
+                _dbStatusText = value;
+                OnPropertyChanged();
+            }
+        }private string _tableDate {  get; set; }
+        public string TableData
+        {
+            get { return _tableDate; }
+            set
+            {
+                _tableDate = value;
+                OnPropertyChanged();
+            }
+        }
+        public ICommand ConnectDB { get; }
+        public ICommand FillInDB { get; }
+        public ICommand ReadDB { get; }
+        private void OnConnectDBExecute(object sender)
+        {
+            if (!File.Exists(dbFileName))
+                SQLiteConnection.CreateFile(dbFileName);
+
+            try
+            {
+                m_dbConn = new SQLiteConnection("Data Source=" + dbFileName + ";Version=3;");
+                m_dbConn.Open();
+                m_sqlCmd.Connection = m_dbConn;
+
+                m_sqlCmd.CommandText = "CREATE TABLE IF NOT EXISTS Catalog " +
+                    "(id INTEGER PRIMARY KEY AUTOINCREMENT, parameterName TEXT, valueString TEXT)";
+                m_sqlCmd.ExecuteNonQuery();
+                
+
+                DbStatusText = "Connected";
+            }
+            catch (SqliteException ex)
+            {
+                DbStatusText = "Disconnected";
+                MessageBox.Show("Error: " + ex.Message);
+            }
+        }
+        private void OnFillInDBExecute(object sender)
+        {
+            if (m_dbConn.State != ConnectionState.Open)
+            {
+                MessageBox.Show("Open connection with database");
+                return;
+            }
+
+            try
+            {
+                using (var command = m_dbConn.CreateCommand())
+                {
+                    command.CommandText = "INSERT INTO Catalog ('parameterName', 'valueString') values" +
+                        " ('Высота панели' , '3000')";
+
+                    command.ExecuteNonQuery(); // Выполнение команды
+                }
+            }
+            catch (SqliteException ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
+            
+        }
+        private void OnReadDBExecute(object sender)
+        {
+            DataTable dTable = new DataTable();
+            String sqlQuery;
+
+            if (m_dbConn.State != ConnectionState.Open)
+            {
+                MessageBox.Show("Open connection with database");
+                return;
+            }
+
+            try
+            {
+                sqlQuery = "SELECT * FROM Catalog";
+                SQLiteDataAdapter adapter = new SQLiteDataAdapter(sqlQuery, m_dbConn);
+                adapter.Fill(dTable);
+
+                if (dTable.Rows.Count > 0)
+                {
+                    TableData = string.Empty;
+
+                    for (int i = 0; i < dTable.Rows.Count; i++)
+                    {
+                        for (int j = 0; j < dTable.Columns.Count; j++)
+                        {
+                            // Используем Rows[i][j] для доступа к ячейке
+                            TableData += dTable.Rows[i][j].ToString() + " "; // .ToString() для преобразования в строку
+                        }
+                        TableData += Environment.NewLine; // Разделение строк
+                    }
+                    MessageBox.Show(TableData);
+                }
+                else
+                    MessageBox.Show("Database is empty");
+            }
+            catch (SQLiteException ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
+
+        }
+        private bool OnConnectDBExecuted(object sender)
+        {
+            return true;
+        }private bool OnFillInDBExecuted(object sender)
+        {
+            return DbStatusText == "Connected";
+        }
         public MainWindowViewModel()
         {
+            m_dbConn = new SQLiteConnection();
+            m_sqlCmd = new SQLiteCommand();
+
+            DbStatusText = "Disconnected";
+
             IsLeftAperture = new RelayCommand(OnIsLeftApertureExecute, OnIsLeftApertureCanExecuted);
             IsRightAperture = new RelayCommand(OnIsRightApertureExecute, OnIsRightApertureCanExecuted);
             MirrorPanel = new RelayCommand(OnMirrorPanelExecute, OnMirrorPanelCanExecuted);
             SelectPanel = new RelayCommand(OnSelectPanelExecute, OnSelectPanelCanExecuted);
             SaveFamily = new RelayCommand(OnSaveFamilyExecute, OnSaveFamilyExecuted);
             LoadFamily = new RelayCommand(OnLoadFamilyExecute, OnLoadFamilyExecuted);
+            ConnectDB = new RelayCommand(OnConnectDBExecute, OnConnectDBExecuted);
+            FillInDB = new RelayCommand(OnFillInDBExecute, OnFillInDBExecuted);
+            ReadDB = new RelayCommand(OnReadDBExecute, OnFillInDBExecuted);
 
             WallPanel currentWallPanel = new WallPanel(5000, 3000, 1200, 2000, 600, 1200, 2000, 600);
             installWallPanel(currentWallPanel);
